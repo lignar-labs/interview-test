@@ -13,7 +13,7 @@ class HomeController extends Controller
      */
     public function __construct()
     {
-        //TODO: Set middleware
+        $this->middleware('auth');
     }
 
     /**
