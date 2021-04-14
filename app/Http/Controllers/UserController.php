@@ -5,9 +5,14 @@ namespace App\Http\Controllers;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,14 +21,14 @@ class UserController extends Controller
     public function index()
     {
         $users = User::where('id', Auth::id())->get();
-        return view('user', compact('users'));
+        return view('user.index', compact('users'));
     }
 
     /**
      * Show the form for creating a new resource.
      *
      * @return \Illuminate\Http\Response
-     */ 
+     */
     public function create()
     {
         //
@@ -59,7 +64,8 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $users = User::find(Auth::id());
+        return view('user.edit', compact('users'));
     }
 
     /**
@@ -71,7 +77,18 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'name' => 'required',
+            'email' => 'required',
+            'password' => 'required'
+        ]);
+
+        $users = User::find($id);
+        $users->name =  $request->get('name');
+        $users->email = $request->get('email');
+        $users->password = Hash::make($request->get('password'));
+        $users->save();
+        return redirect('/user')->with('success', 'User updated!');
     }
 
     /**

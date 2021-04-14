@@ -20,6 +20,8 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('index');
-Route::get('/user/{id}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('edit');
-Route::get('/user/{id}', [App\Http\Controllers\UserController::class, 'update'])->name('update');
+Route::resource('/user',App\Http\Controllers\UserController::class);
+// Route::get('/user', [App\Http\Controllers\UserController::class, 'index'])->name('index');
+// Route::post('/{user}', [App\Http\Controllers\UserController::class, 'store'])->name('store');
+// Route::get('/{user}/edit', [App\Http\Controllers\UserController::class, 'edit'])->name('edit');
+// Route::put('/user', [App\Http\Controllers\UserController::class, 'update'])->name('update');
