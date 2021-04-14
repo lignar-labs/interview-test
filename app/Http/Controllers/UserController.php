@@ -77,13 +77,14 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
+        // dd($request->a   ll());
         $request->validate([
             'name' => 'required',
             'email' => 'required',
             'password' => 'required'
         ]);
 
-        $users = User::find($id);
+        $users = User::find(Auth::id());
         $users->name =  $request->get('name');
         $users->email = $request->get('email');
         $users->password = Hash::make($request->get('password'));
@@ -99,6 +100,8 @@ class UserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::find(Auth::id());
+        $user->delete();
+        return redirect('/home')->with('success', 'User deleted!');
     }
 }
