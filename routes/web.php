@@ -18,5 +18,12 @@ use Illuminate\Support\Facades\Route;
 // });
 
 Auth::routes();
+// Route::post('/{slug}/tasks',['as' => 'tasks.ajax','uses' =>'ProjectController@ajax_tasks'])->middleware(['auth','XSS']);
 
 Route::get('/', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'home'])->name('truehome')->middleware(['auth']);
+Route::get('/edit/{id}', [App\Http\Controllers\HomeController::class, 'edit'])->name('user-update')->middleware(['auth']);
+Route::put('/update/{id}', [App\Http\Controllers\HomeController::class, 'save'])->name('user-save')->middleware(['auth']);
+Route::delete('/delete/{id}', [App\Http\Controllers\HomeController::class, 'destroy'])->name('user-delete')->middleware(['auth']);
+Route::get('/createUserPage', [App\Http\Controllers\HomeController::class, 'createUserPage'])->name('user-create-page')->middleware(['auth']);
+Route::post('/createUser', [App\Http\Controllers\HomeController::class, 'create'])->name('user-create')->middleware(['auth']);

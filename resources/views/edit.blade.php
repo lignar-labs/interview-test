@@ -5,9 +5,7 @@
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Dashboard') }}
-                </div>
-                <a class="btn btn-success" href="{{ route('user-create-page') }}">Create User</a>
+                <div class="card-header">{{ __('Dashboard') }}</div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -17,7 +15,6 @@
                     @endif
 
                     {{ __('You are logged in!') }}
-
                 </div>
                 <br>
                 <table class="table table-border">
@@ -26,20 +23,17 @@
                         <th>Email</th>
                         <th>Action</th>
                     </tr>
-                    @foreach ($users as $user)
+                    {{-- @foreach ($users as $user) --}}
+                    <form method="Post" action="{{ route('user-save', $user->id)}}" >
+                        @method('PUT')
+                        @csrf
                         <tr>
-                            <td>{{ $user->name }}</td>
-                            <td>{{ $user->email }}</td>
-                            <td>
-                                <a class="btn btn-warning" href="{{ route('user-update', $user->id) }}">Edit</a>
-                                <form method="POST" action="{{ route('user-delete', $user->id) }}">
-                                    @method('DELETE')
-                                    @csrf
-                                    <button class="btn btn-danger" type="submit">Delete</button>
-                                </form>
-                            </td>
+                            <td><input class="form-control" type="text" name="name" value={{ $user->name }}/></td>
+                            <td><input class="form-control" type="text" name="email" value={{ $user->email }}></td>
+                            <td><button class="btn btn-success" type="submit">save</button></td>
                         </tr>
-                    @endforeach
+                    </form>
+                    {{-- @endforeach --}}
                 </table>
             </div>
         </div>
